@@ -4,6 +4,7 @@ LB_IMAGE_NAME="debian-bookworm-live" lb config \
 	--bootstrap-qemu-static /usr/bin/qemu-aarch64-static \
 	--archive-areas 'contrib main non-free non-free-firmware' \
 	--parent-archive-areas 'contrib main non-free non-free-firmware' \
+	--debian-installer netinst \
 	--debian-installer-distribution bookworm \
 	--distribution bookworm \
 	--distribution-chroot bookworm \
@@ -25,24 +26,6 @@ LB_IMAGE_NAME="debian-bookworm-live" lb config \
 	--mirror-binary-security "http://security.debian.org/debian-security/" \
 	--mirror-debian-installer "http://ftp.debian.org/debian/"
 
-echo "deb https://apt.armbian.com bookworm main bookworm-utils bookworm-desktop" > config/archives/live.list.chroot
-echo "deb https://apt.armbian.com bookworm main bookworm-utils bookworm-desktop" > config/archives/live.list.binary
-echo "deb https://download.opensuse.org/repositories/home:/amazingfate:/panfork-mesa/Debian_12/ ./" >> config/archives/live.list.chroot
-echo "deb https://download.opensuse.org/repositories/home:/amazingfate:/panfork-mesa/Debian_12/ ./" >> config/archives/live.list.binary
-
-wget https://raw.githubusercontent.com/armbian/build/main/config/armbian.key
-gpg --dearmor < armbian.key > armbian.gpg
-cp armbian.gpg config/archives/armbian.key.binary
-cp armbian.gpg config/archives/armbian.key.chroot
-wget https://download.opensuse.org/repositories/home:/amazingfate:/panfork-mesa/Debian_12/Release.key
-gpg --dearmor < Release.key > obs-amazingfate.gpg
-cp obs-amazingfate.gpg config/archives/obs-amazingfate.key.binary
-cp obs-amazingfate.gpg config/archives/obs-amazingfate.key.chroot
-
-wget https://raw.githubusercontent.com/armbian/build/main/config/cli/common/main/packages -O config/package-lists/armbian-cli.list.chroot
-wget https://raw.githubusercontent.com/armbian/build/main/config/cli/common/main/packages.additional -O config/package-lists/armbian-cli-addtional.list.chroot
-wget https://raw.githubusercontent.com/armbian/build/main/config/desktop/bullseye/environments/gnome/config_base/packages -O config/package-lists/armbian-gnome.list.chroot
-sed -i "/lightdm/d" config/package-lists/armbian-gnome.list.chroot
 cp additional-packages config/package-lists/additional-packages.list.chroot
 
 mkdir -p config/includes.chroot_after_packages/etc/netplan

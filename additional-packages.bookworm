@@ -1,6 +1,3 @@
 firmware-misc-nonfree
-mesa-utils
 vim
-calamares-settings-debian
 grub-efi-arm64
-gparted
